@@ -1,0 +1,12 @@
+@model ExamUser
+
+<h1>Login!</h1>
+<a asp-action="Index" asp-controller="Home">Register</a>
+<div asp-validation-summary="All"></div>
+<form asp-action="Exam" asp-controller="Home" method="post">
+    <label asp-for="ExamEmail"></label>
+    <input asp-for="ExamEmail" type="text"><br>
+    <label asp-for="ExamPassword"></label>
+    <input asp-for="ExamPassword"><br>
+    <input type="submit" value="Log In">
+</form>

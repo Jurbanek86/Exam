@@ -1,0 +1,25 @@
+@model Job
+<h1>Dojo Activity Center</h1>
+<a asp-action="Dashboard" asp-controller="Job">Home</a>
+<a asp-action="LogOut" asp-controller="Home">LogOut</a>
+
+<div asp-validation-summary="All"></div>
+<form asp-action="Create" asp-controller="Job" method="post">
+    <label asp-for="JobName"></label>
+    <input asp-for="JobName"><br>
+    <label asp-for="Date"></label>
+    <input asp-for="Date" ><br>
+    <label asp-for="Description"></label>
+    <input asp-for="Description"><br>
+    <label asp-for="Duration"></label>
+    <input asp-for="Duration"><br>
+    <label asp-for="Time"></label>
+    <input asp-for="Time">
+    <select asp-for="Increment">
+        <option value="Minutes">Minutes</option>
+        <option value="Hours">Hours</option>
+    </select><br>
+    
+    <input type="hidden" asp-for="UserId" value="@ViewBag.User.UserId">
+    <input type="submit" value="Create Activity">
+</form>

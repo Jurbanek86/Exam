@@ -1,0 +1,40 @@
+@model Job
+
+<h1>Dojo Activity Center</h1>
+<a asp-action="Dashboard" asp-controller="Job">Home</a>
+<a asp-action="LogOut" asp-controller="Home">LogOut</a><br><br>
+<h2>@Model.JobName</h2><br>
+<h3>Event Corrdinator: @Model.Planner.FirstName</h3><br>
+    
+
+<h3>Description:</h3> 
+<p> @Model.Description</p><br>
+<div>
+    <H6>Participants: </H6>
+    @if(@Model.WorkerList.Count == 0)
+    {
+        <p>All alone :'(</p>
+    }
+    @foreach( var r in @Model.WorkerList)
+    {
+        <p>@r.Worker.FirstName @r.Worker.LastName</p>
+    }
+</div>
+@if(@ViewBag.User.UserId == @Model.UserId)
+            {
+                <a asp-action="Destroy" asp-controller="Job" asp-route-jobId="@Model.JobId" class="btn btn-primary">DELETE</a><br><br>
+                
+            }
+            else
+            {
+                @if(Model.WorkerList.All(r => r.UserId != @ViewBag.User.UserId))
+                {
+                    <a asp-action="RSVP" asp-controller="Job" asp-route-jobId="@Model.JobId" asp-route-userId="@ViewBag.User.UserId" asp-route-status="add" class="btn btn-primary mb1 bg-green">Join</a><br><br>
+                    
+                }
+                @if(Model.WorkerList.Any(r => r.UserId == @ViewBag.User.UserId))
+                {
+                    <a asp-action="RSVP" asp-controller="Job" asp-route-jobId="@Model.JobId" asp-route-userId="@ViewBag.User.UserId" asp-route-status="remove" class="btn btn-primary">Leave</a><br><br>
+                    
+                }
+            } 

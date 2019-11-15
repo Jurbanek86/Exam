@@ -1,0 +1,41 @@
+@model List<Job>
+<h1>Dojo Activity Center</h1>
+<h5>Welcome @ViewBag.User.FirstName</h5>
+<a asp-action="LogOut" asp-controller="Home">LogOut</a>
+<table>
+    <tr>
+        <th>Activity</th>
+        <th>Date and Time</th>
+        <th>Duration</th>
+        <th>Event Corrdinator</th>
+        <th>No. of Participants</th>
+        <th>Action</th>
+    </tr>
+    @foreach(var w in @Model) 
+    {
+        <tr>
+            <td><a asp-action="Show" asp-controller="Job" asp-route-jobId="@w.JobId">@w.JobName</a></td>
+            <td>@w.Date.ToString("MMM dd, yyyy") at @w.Date.ToString("hh:mm tt")</td>
+            <td>@w.Duration @w.Increment</td>
+            <td>@w.Planner.FirstName</td>
+            
+            <td>@w.WorkerList.Count</td>
+            @if(@ViewBag.User.UserId == @w.UserId)
+            {
+                <td><a asp-action="Destroy" asp-controller="Job" asp-route-jobId="@w.JobId">DELETE</a></td>
+            }
+            else
+            {
+                @if(w.WorkerList.All(r => r.UserId != @ViewBag.User.UserId))
+                {
+                    <td><a asp-action="RSVP" asp-controller="Job" asp-route-jobId="@w.JobId" asp-route-userId="@ViewBag.User.UserId" asp-route-status="add">Join</a></td>
+                }
+                @if(w.WorkerList.Any(r => r.UserId == @ViewBag.User.UserId))
+                {
+                    <td><a asp-action="RSVP" asp-controller="Job" asp-route-jobId="@w.JobId" asp-route-userId="@ViewBag.User.UserId" asp-route-status="remove">Leave</a></td>
+                }
+            }                     
+    </tr>
+    }
+</table>
+<a asp-action="New" asp-controller="Job" >Add New Activity</a>
